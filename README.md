@@ -136,3 +136,14 @@ curl -s -X GET "http://127.0.0.1:5000/summary?month=2026-05" \
   When deploying beyond local development:
   1. Set `SECRET_KEY` in your environment to a secure, randomly generated string of at least 32 bytes (for example, generated via `python3 -c "import secrets; print(secrets.token_hex(32))"`). The application includes an explicit dev default for local testing.
   2. Set `DATABASE_URL` to point to a production-grade relational database URI (such as PostgreSQL: `postgresql://user:password@host:port/dbname`).
+
+## Architecture
+
+```mermaid
+flowchart LR
+    Client[Client] --> API[Flask API<br/>app-factory + blueprints]
+    API --> Auth[JWT auth]
+    API --> DB[(SQLAlchemy ledger)]
+    DB --> Sum[Monthly summaries]
+```
+
